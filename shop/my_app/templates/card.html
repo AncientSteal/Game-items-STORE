@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Card</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="page">
+    <div class="card card_show">
+        <h1>{{item.name}}</h1>
+        <p>Описание предмета: {{item.description}}. Подробнее про историю предмета вы можете узнать в нашем
+            <a class="history_link" href="https://genshin.guru/weapon">путеводителе.</a></p>
+        <div>Цена за один экземпляр: {{item.price}} моры</div>
+        <div class="available_count {% if item.available == 0 %} empty {% endif %}">
+            В наличии: {{item.available}}</div>
+        <img src="{% static 'images/' %}{{ item.image_path }}">
+        <div class="button_container">
+            <form action="{% url 'add_to_basket' item.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="button"{% if item.available == 0 or item.available <= basket_count %} disabled {% endif %}>
+                    Добавить в корзину
+                </button>
+            </form>
+            <a href="/">
+                <button class="button">
+                    Назад к каталогу
+                </button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

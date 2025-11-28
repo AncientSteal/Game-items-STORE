@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Basket</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="page">
+    <div id="shade" class="shade"></div>
+    <div class="order_modal" id="order_modal">
+        <form class="order_form" id="order_form">
+            <button type="button" class="button close_button" id="close_button">x</button>
+            <p>К оплате: {{ total }} моры</p>
+            <input type="email" name="email" required>
+            <label>Введите ваш адрес</label>
+            <input type="tel" name="phone_number" required>
+            <label>Введите ваш номер телефона</label>
+            <button type="submit" class="button">Заказать</button>
+        </form>
+    </div>
+    <div class="success_modal" id="success_modal">
+        <button type="button" class="button close_button">x</button>
+        <p>Заказ успешно оформлен!</p>
+        <a href="/">
+            <button class="button">
+                Назад в каталог
+            </button>
+        </a>
+    </div>
+    <div class="basket_container">
+        {% if basket_items %}
+            <table class="basket_table">
+                <tr>
+                    <th>Товар</th>
+                    <th>Цена</th>
+                    <th>Количество</th>
+                    <th>Удалить</th>
+                </tr>
+                {% for basket_item in basket_items %}
+                <tr>
+                    <td>{{ basket_item.item.name }}</td>
+                    <td>{{ basket_item.item.price }}</td>
+                    <td>{{ basket_item.count }}</td>
+                    <td>
+                        <form action="{% url 'delete_from_basket' basket_item.item.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="button">
+                                X
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            <p>Общая сумма: {{ total }} моры</p>
+            <button type="button" class="button order_button" id="order_button">Заказать</button>
+        {% else %}
+            <p>Корзина пуста</p>
+        {% endif %}
+        <a href="/">
+            <button class="button">
+                Назад в каталог
+            </button>
+        </a>
+    </div>
+    <script src="{% static 'js/basket.js' %}"></script>
+</body>
+</html>

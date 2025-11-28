@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Catalog</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="page">
+    <div id="shade" class="shade"></div>
+    <header>
+        <div class="header">
+            <img src="{% static 'images/Ikon.png' %}" class="icon_img">
+            <h1>Weapon Store</h1>
+        </div>
+    </header>
+    <button id="toggleMenu" class="toggleMenu"><span class="arrow">▶</span></button>
+    <div id="sideMenu" class="sideMenu">
+        <h2>Полезные ссылки</h2>
+        <div class="menu">
+            <a href="https://genshin.guru/weapon"><button class="button">Путеводитель</button></a>
+            <a href="https://genshin-info.ru/top-oruzhiya"><button class="button">Тир лист оружия</button></a>
+            <a href="https://genshin-info.ru/wiki/personazhi/"><button class="button">Персонажи</button></a>
+        </div>
+    </div>
+    <img class="art_image" src="{% static 'images/arlecchino.png' %}" id="art_image">
+    <div class="main">
+        <a href="basket" class="basket_link"><img src="{% static 'images/basket.jpg' %}" class="basket_image">
+            {% if basket_item_count > 0 %}
+                <span class="basket-count">{{ basket_item_count }}</span>
+            {% endif %}
+        </a>
+        <div class="container">
+            {% for item in items %}
+                <a href="card?id={{item.id}}">
+                    <div class="card">
+                        <h1 class="title">{{item.name}}</h1>
+                        <div class="price">Цена: {{item.price}} моры</div>
+                        <p class="description"> {{item.description}} </p>
+                        <img src="{% static 'images/' %}{{ item.image_path }}">
+                        <div class="available_count {% if item.available == 0 %} empty {% endif %}">
+                            Товаров в наличии: {{item.available}}</div>
+                        <form action="{% url 'add_to_basket' item.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="button"
+                            {% if item.available == 0 or item.available <= item.basket_count %} disabled {% endif %}>
+                                Добавить в корзину
+                            </button>
+                        </form>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+    <script src="{% static 'js/index.js' %}"></script>
+</body>
+</html>
