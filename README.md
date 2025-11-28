@@ -61,4 +61,4 @@
 ---
 ![Демонстрация работы](demo/demo.gif)
 
-## ССылка на репрозиторий GitHub: git@github.com:AncientSteal/Game-items-STORE.git 
+## ССылка на репрозиторий GitHub: [git@github.com:AncientSteal/Game-items-STORE.git ](https://github.com/AncientSteal/Game-items-STORE?tab=readme-ov-file)
